@@ -27,9 +27,7 @@ public class CategoriaResource {
     @PostMapping
     public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, HttpServletResponse response) {
         Categoria categoriaSalva = categoriaRepository.save(categoria);
-
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
-
         return ResponseEntity.created(uri).body(categoriaSalva);
     }
 

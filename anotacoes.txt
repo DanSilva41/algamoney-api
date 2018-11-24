@@ -1,0 +1,93 @@
+﻿CAP 01 - Introdução ao REST
+==========================================================
+SOFEA: Service Oriented Front-end Arquicteture
+
+"Remover toda a lógica de apresentação do servidor para o cliente."
+
+- Download do HTML, CSS e JS somente uma vez.
+
+BENEFÍCIOS:
+	- Desenvolvimento assíncrono no front-end e back-end;
+	- Escalibidade (servidor fica Staleless);
+	- Interoperabilidade(Angular, React, Vue.js);
+	- Melhor experiência do usuário e baixa latência
+__________________________________________________________
+1. O que é REST?
+
+REST é uma arquitetura ("forma de integrar sistemas");
+RESTFUL é uma implementação usando a arquitetura REST;
+API REST - Application Programming Interface: Representação de pontos expostos pela aplicação.
+
+2. Ambiente de Desenvolvimento
+
+- Spring Boot
+- Spring Tools Suite
+- Postman
+- MySQL
+
+==========================================================
+CAP 02 - Fundamentos do REST
+
+1. O que é um recurso?
+Recurso precisa ter uma identificação (URI).
+
+Representação de um recurso: JSON, XML, Imagem
+
+2. Modelo de maturidade Richardson
+
+https://martinfowler.com/articles/richardsonMaturityModel.html (** Ler/Interessante)
+
+Level 0: Não é REST
+	HTTP só para transporte 
+Level 1: Ainda não é REST
+	Começa a noção de recurso
+Level 2:
+Level 3:
+
+[Retornar para entender...]
+
+==========================================================
+CAP 03 - Primeiras consultas e cadastros na API
+
+Arquivos: mvnw ou mvnw.cmd (não há necessidade de ter o maven instalado para rodar o projeto)
+
+IMPLEMENTAÇÕES:
+________________________________________________________________________________
+Repositórios extendendo JpaRepository<T, ID>: que já fornece diversos métodos e suas implementações
+________________________________________________________________________________
+Anotar os recursos com estas anotações:
+@RestController
+@RequestMapping("</nomeDaURI>"
+________________________________________________________________________________
+Protrocols HTTP nos recursos:
+@GetMapping
+@PostMapping
+________________________________________________________________________________
+ResponseEntity.notFound().build() = 404
+ResponseEntity.noContent().build() = 202 : resposta positiva mas sem nenhum conteúdo no body
+________________________________________________________________________________
+Ex: 
+@ResponseStatus(HttpStatus.CREATED)
+public void criar(@RequestBody Categoria categoria) {}
+________________________________________________________________________________
+@RequestBody - Indicando que o objeto está dentro do body da requisição
+@ResponseStatus - Indica qual o protocolo que será enviada na resposta após o fim da execução do recurso
+________________________________________________________________________________
+ServletUriComponentsBuilder.fromCurrentRequestUri(); // pegar a URL atual
+URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaSalva.getCodigo()).toUri();
+ // formar URI através da requisição corrente e adicionando código da entidade
+
+________________________________________________________________________________
+@GetMapping("/{codigo}")
+    public Categoria buscarPeloCodigo(@PathVariable Long codigo) {
+        return categoriaRepository.findById(codigo).get();
+    }
+
+buscar por parametros passados na requisição = @PathVariable
+________________________________________________________________________________
+* Classes anotadas com @ControllerAdvice, observam toda a aplicação
+________________________________________________________________________________
+* @Autowired
+    private MessageSource messageSource; // possível ler arquivos [messages.properties]
+________________________________________________________________________________
+* LocaleContextHolder.getLocale() = Capturar contexto atual
