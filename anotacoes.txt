@@ -91,3 +91,5 @@ ________________________________________________________________________________
     private MessageSource messageSource; // possível ler arquivos [messages.properties]
 ________________________________________________________________________________
 * LocaleContextHolder.getLocale() = Capturar contexto atual
+________________________________________________________________________________
+@Valid - "Spring, valida essa entidade para mim, segundo o BeanValidation"
